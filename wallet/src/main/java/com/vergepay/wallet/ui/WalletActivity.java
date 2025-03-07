@@ -8,8 +8,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -35,7 +33,6 @@ import com.vergepay.core.wallet.SerializedKey;
 import com.vergepay.core.wallet.WalletAccount;
 import com.vergepay.wallet.Constants;
 import com.vergepay.wallet.R;
-import com.vergepay.wallet.receiver.OrbotStatusReceiver;
 import com.vergepay.wallet.service.CoinService;
 import com.vergepay.wallet.service.CoinServiceImpl;
 import com.vergepay.wallet.tasks.CheckUpdateTask;
@@ -108,7 +105,6 @@ final public class WalletActivity extends BaseWalletActivity implements
     private final Handler handler = new MyHandler(this);
     private boolean isOverviewVisible;
     private OverviewFragment overviewFragment;
-    private OrbotStatusReceiver orbotStatusReceiver;
     @Nullable private AccountFragment accountFragment;
 
     public WalletActivity() {}
@@ -119,11 +115,6 @@ final public class WalletActivity extends BaseWalletActivity implements
         setContentView(R.layout.activity_wallet);
 		
 		new Lock();
-
-        orbotStatusReceiver = new OrbotStatusReceiver(this);
-
-        IntentFilter intentFilter = new IntentFilter("org.torproject.android.intent.action.STATUS");
-        registerReceiver(orbotStatusReceiver, intentFilter, Context.RECEIVER_EXPORTED);
 
         if (getWalletApplication().getWallet() == null) {
             startIntro();
@@ -191,12 +182,6 @@ final public class WalletActivity extends BaseWalletActivity implements
         title = getResources().getString(R.string.title_activity_overview);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unregisterReceiver(orbotStatusReceiver);
-    }
-
     private void setAccountTitle(@Nullable WalletAccount account) {
         if (account != null) {
             title = account.getDescriptionOrCoinName();
@@ -249,35 +234,6 @@ final public class WalletActivity extends BaseWalletActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-
-        try {
-            ApplicationInfo applicationInfo = getPackageManager().getApplicationInfo("org.torproject.android", 0);
-            Intent intent = new Intent("org.torproject.android.intent.action.START");
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
-                intent.setFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-            }
-            sendBroadcast(intent);
-        } catch (PackageManager.NameNotFoundException e) {
-            new android.support.v7.app.AlertDialog.Builder(this)
-                    .setMessage("In order to use this application Orbot must be installed")
-                    .setPositiveButton("Install", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            try {
-                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=org.torproject.android")));
-                            } catch (ActivityNotFoundException anfe) {
-                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=org.torproject.android")));
-                            }
-                        }
-                    })
-                    .setNegativeButton("Exit", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            finish();
-                        }
-                    }).show();
-            e.printStackTrace();
-        }
 
         getWalletApplication().startBlockchainService(CoinService.ServiceMode.CANCEL_COINS_RECEIVED);
         connectAllCoinService();
