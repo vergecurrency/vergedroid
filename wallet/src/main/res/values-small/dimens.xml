@@ -1,0 +1,25 @@
+<resources>
+    <!-- Amount Widget -->
+    <dimen name="amount_margin_top">10dp</dimen>
+    <dimen name="amount_margin_bottom">4dp</dimen>
+    <dimen name="amount_text_size_big">48sp</dimen>
+    <dimen name="amount_symbol_text_size">20sp</dimen>
+
+    <!-- SendOutput Widget -->
+    <dimen name="send_output_amount_text_size">24sp</dimen>
+
+    <!-- IntroActivity -->
+    <dimen name="seed_text_size">22sp</dimen>
+
+    <!-- Overview fragment -->
+    <dimen name="overview_amount_margin_top">10dp</dimen>
+
+    <!-- About Activity -->
+    <dimen name="app_name_long">26sp</dimen>
+
+    <!-- generic rows -->
+    <dimen name="row_padding_vertical">4dp</dimen>
+
+    <!-- Qr codes -->
+    <dimen name="qr_code_size">176dp</dimen>
+</resources>
