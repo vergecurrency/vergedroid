@@ -63,11 +63,7 @@ public class StratumClient extends AbstractExecutionThreadService {
         return idCounter.get();
     }
 
-    protected Socket createSocket() throws IOException {
-        ServerAddress address = serverAddress;
-        log.debug("Opening a socket to " + address.getHost() + ":" + address.getPort());
-
-        return new Socket(address.getHost(), address.getPort());
+    return new Socket(address.getHost(), address.getPort());
     }
 
     @Override
