@@ -10,6 +10,7 @@ final public class ServerAddress {
     public ServerAddress(String host, int port) {
         this.host = host;
         this.port = port;
+	}
 
     public String getHost() {
         return host;
