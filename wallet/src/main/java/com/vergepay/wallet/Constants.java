@@ -86,7 +86,7 @@ public class Constants {
     public static final char CURRENCY_MINUS_SIGN = '-';
 
     public static final String MARKET_APP_URL = "market://details?id=%s";
-    public static final String BINARY_URL = "https://github.com/vergecurrency/verge-tordroid/";
+    public static final String BINARY_URL = "https://github.com/vergecurrency/vergedroid/";
 
     public static final String VERSION_URL = "https://vergecurrency.com/version";
     public static final String SUPPORT_EMAIL = "@vergecurrency on x.com";
@@ -126,7 +126,7 @@ public class Constants {
         COINS_BLOCK_EXPLORERS.put(CoinID.BITCOIN_TEST.getCoinType(), "https://chain.so/tx/BTCTEST/%s");
         COINS_BLOCK_EXPLORERS.put(CoinID.LITECOIN_MAIN.getCoinType(), "http://ltc.blockr.io/tx/info/%s");
         COINS_BLOCK_EXPLORERS.put(CoinID.LITECOIN_TEST.getCoinType(), "https://chain.so/tx/LTCTEST/%s");
-        COINS_BLOCK_EXPLORERS.put(CoinID.VERGE_MAIN.getCoinType(), "http://dvzs4zoxkg6z43dd.onion/tx/%s");
+        COINS_BLOCK_EXPLORERS.put(CoinID.VERGE_MAIN.getCoinType(), "https://verge-blockchain.info/tx/%s");
     }
 
     public static final CoinType DEFAULT_COIN = VergeMain.get();
