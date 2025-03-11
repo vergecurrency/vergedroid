@@ -88,7 +88,7 @@ public class Constants {
     public static final String MARKET_APP_URL = "market://details?id=%s";
     public static final String BINARY_URL = "https://github.com/vergecurrency/vergedroid/";
 
-    public static final String VERSION_URL = "https://vergecurrency.com/version";
+    public static final String VERSION_URL = "https://vergecurrency.com/version.txt";
     public static final String SUPPORT_EMAIL = "@vergecurrency on x.com";
 
     // TODO move to resource files
@@ -105,8 +105,8 @@ public class Constants {
                                                     new ServerAddress("ltc-testnet-cce-2.verge.net", 15002)),
 			new CoinAddress(NxtMain.get(),          new ServerAddress("176.9.65.41", 7876),
                                                     new ServerAddress("176.9.65.41", 7876)),
-            new CoinAddress(VergeMain.get(),        new ServerAddress("electrumx-verge.cloud", 50001),
-                                                    new ServerAddress("electrum-verge.cloud", 50001))
+            new CoinAddress(VergeMain.get(),        new ServerAddress("139.59.172.93", 50001),
+                                                    new ServerAddress("139.59.172.93", 50001))
     );
 
     public static final HashMap<CoinType, Integer> COINS_ICONS;
