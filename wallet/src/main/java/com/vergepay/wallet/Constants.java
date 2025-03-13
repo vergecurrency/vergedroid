@@ -2,15 +2,7 @@ package com.vergepay.wallet;
 
 import android.text.format.DateUtils;
 
-import com.vergepay.core.coins.BitcoinMain;
-import com.vergepay.core.coins.BitcoinTest;
-import com.vergepay.core.coins.BurstMain;
-import com.vergepay.core.coins.CoinID;
-import com.vergepay.core.coins.CoinType;
-import com.vergepay.core.coins.LitecoinMain;
-import com.vergepay.core.coins.LitecoinTest;
-import com.vergepay.core.coins.NxtMain;
-import com.vergepay.core.coins.VergeMain;
+import com.vergepay.core.coins.*;
 import com.vergepay.core.network.CoinAddress;
 import com.vergepay.stratumj.ServerAddress;
 import com.google.common.collect.ImmutableList;
@@ -93,35 +85,34 @@ public class Constants {
 
     // TODO move to resource files
     public static final List<CoinAddress> DEFAULT_COINS_SERVERS = ImmutableList.of(
-            new CoinAddress(BitcoinMain.get(),      new ServerAddress("btc-cce-1.verge.net", 5001),
-                                                    new ServerAddress("btc-cce-2.verge.net", 5001)),
-            new CoinAddress(BitcoinTest.get(),      new ServerAddress("btc-testnet-cce-1.verge.net", 15001),
-                                                    new ServerAddress("btc-testnet-cce-2.verge.net", 15001)),
-			new CoinAddress(BurstMain.get(),        new ServerAddress("burst-cce-1.verge.net", 5051),
-                                                    new ServerAddress("burst-cce-2.verge.net", 5051)),
-            new CoinAddress(LitecoinMain.get(),     new ServerAddress("ltc-cce-1.verge.net", 5002),
-                                                    new ServerAddress("ltc-cce-2.verge.net", 5002)),
-            new CoinAddress(LitecoinTest.get(),     new ServerAddress("ltc-testnet-cce-1.verge.net", 15002),
-                                                    new ServerAddress("ltc-testnet-cce-2.verge.net", 15002)),
-			new CoinAddress(NxtMain.get(),          new ServerAddress("176.9.65.41", 7876),
-                                                    new ServerAddress("176.9.65.41", 7876)),
-            new CoinAddress(VergeMain.get(),        new ServerAddress("139.59.172.93", 50001),
-                                                    new ServerAddress("139.59.172.93", 50001))
+            new CoinAddress(BitcoinMain.get(), new ServerAddress("btc-cce-1.verge.net", 5001, true),
+                    new ServerAddress("btc-cce-2.verge.net", 5001, true)),
+            new CoinAddress(BitcoinTest.get(), new ServerAddress("btc-testnet-cce-1.verge.net", 15001, true),
+                    new ServerAddress("btc-testnet-cce-2.verge.net", 15001, true)),
+            new CoinAddress(BurstMain.get(), new ServerAddress("burst-cce-1.verge.net", 5051, true),
+                    new ServerAddress("burst-cce-2.verge.net", 5051, true)),
+            new CoinAddress(LitecoinMain.get(), new ServerAddress("ltc-cce-1.verge.net", 5002, true),
+                    new ServerAddress("ltc-cce-2.verge.net", 5002, true)),
+            new CoinAddress(LitecoinTest.get(), new ServerAddress("ltc-testnet-cce-1.verge.net", 15002, true),
+                    new ServerAddress("ltc-testnet-cce-2.verge.net", 15002, true)),
+            new CoinAddress(NxtMain.get(), new ServerAddress("176.9.65.41", 7876, true),
+                    new ServerAddress("176.9.65.41", 7876, true)),
+            new CoinAddress(VergeMain.get(), new ServerAddress("xvg-electrum.online", 50002, true),
+                    new ServerAddress("xvg-electrum.online", 50002, true))
     );
 
-    public static final HashMap<CoinType, Integer> COINS_ICONS;
-    public static final HashMap<CoinType, String> COINS_BLOCK_EXPLORERS;
+    public static final HashMap<CoinType, Integer> COINS_ICONS = new HashMap<>();
+    public static final HashMap<CoinType, String> COINS_BLOCK_EXPLORERS = new HashMap<>();
+
     static {
-        COINS_ICONS = new HashMap<>();
         COINS_ICONS.put(CoinID.BITCOIN_MAIN.getCoinType(), R.drawable.bitcoin);
         COINS_ICONS.put(CoinID.BITCOIN_TEST.getCoinType(), R.drawable.bitcoin_test);
         COINS_ICONS.put(CoinID.LITECOIN_MAIN.getCoinType(), R.drawable.litecoin);
         COINS_ICONS.put(CoinID.LITECOIN_TEST.getCoinType(), R.drawable.litecoin_test);
-		COINS_ICONS.put(CoinID.NXT_MAIN.getCoinType(), R.drawable.nxt);
+        COINS_ICONS.put(CoinID.NXT_MAIN.getCoinType(), R.drawable.nxt);
         COINS_ICONS.put(CoinID.BURST_MAIN.getCoinType(), R.drawable.burst);
         COINS_ICONS.put(CoinID.VERGE_MAIN.getCoinType(), R.drawable.verge);
 
-        COINS_BLOCK_EXPLORERS = new HashMap<CoinType, String>();
         COINS_BLOCK_EXPLORERS.put(CoinID.BITCOIN_MAIN.getCoinType(), "https://blockchain.info/tx/%s");
         COINS_BLOCK_EXPLORERS.put(CoinID.BITCOIN_TEST.getCoinType(), "https://chain.so/tx/BTCTEST/%s");
         COINS_BLOCK_EXPLORERS.put(CoinID.LITECOIN_MAIN.getCoinType(), "http://ltc.blockr.io/tx/info/%s");
@@ -135,8 +126,5 @@ public class Constants {
             BitcoinTest.get().getId(),
             LitecoinTest.get().getId()
     );
-
-    public static final List<CoinType> SUPPORTED_COINS = ImmutableList.of(
-            VergeMain.get()
-    );
+    public static final List<CoinType> SUPPORTED_COINS = ImmutableList.of(VergeMain.get());
 }

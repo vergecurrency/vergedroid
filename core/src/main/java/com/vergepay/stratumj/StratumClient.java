@@ -29,6 +29,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.atomic.AtomicLong;
 
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
 
 /**
  * @author John L. Jegutanis
@@ -45,29 +47,37 @@ public class StratumClient extends AbstractExecutionThreadService {
     final private ConcurrentHashMap<String, List<SubscribeResultHandler>> subscribersHandlers =
             new ConcurrentHashMap<>();
     final private BlockingQueue<BaseMessage> queue = new LinkedBlockingDeque<BaseMessage>();
+
     @VisibleForTesting
     DataOutputStream toServer;
     BufferedReader fromServer;
     private Socket socket;
 
-
     public StratumClient(ServerAddress address) {
         serverAddress = address;
     }
 
-    public StratumClient(String host, int port) {
-        serverAddress = new ServerAddress(host, port);
+    public StratumClient(String host, int port, boolean useSSL) {
+        serverAddress = new ServerAddress(host, port, useSSL);
     }
 
     public long getCurrentId() {
         return idCounter.get();
     }
 
-	protected Socket createSocket() throws IOException {
-         ServerAddress address = serverAddress;
-         log.debug("Opening a socket to " + address.getHost() + ":" + address.getPort());
+    protected Socket createSocket() throws IOException {
+        ServerAddress address = serverAddress;
+        log.debug("Opening a socket to " + address.getHost() + ":" + address.getPort() +
+                (address.isUseSSL() ? " with SSL" : ""));
 
-    return new Socket(address.getHost(), address.getPort());
+        if (address.isUseSSL()) {
+            SSLSocketFactory factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
+            SSLSocket sslSocket = (SSLSocket) factory.createSocket(address.getHost(), address.getPort());
+            sslSocket.startHandshake();
+            return sslSocket;
+        } else {
+            return new Socket(address.getHost(), address.getPort());
+        }
     }
 
     @Override
@@ -163,7 +173,6 @@ public class StratumClient extends AbstractExecutionThreadService {
                         log.debug("Interrupted while adding server reply to queue. Retrying...");
                     }
                 }
-
             }
         }
         log.info("Finished listening for server replies");
@@ -209,12 +218,10 @@ public class StratumClient extends AbstractExecutionThreadService {
             subscribersHandlers.put(message.getMethod(),
                     Collections.synchronizedList(new ArrayList<SubscribeResultHandler>()));
         }
-
         // Add handler if needed
         if (!subscribersHandlers.get(message.getMethod()).contains(handler)) {
             subscribersHandlers.get(message.getMethod()).add(handler);
         }
-
         // Make the subscription call, the server will reply immediately
         return call(message);
     }
@@ -255,12 +262,10 @@ public class StratumClient extends AbstractExecutionThreadService {
                 CallMessage reply = (CallMessage) message;
                 if (subscribersHandlers.containsKey(reply.getMethod())) {
                     List<SubscribeResultHandler> subs;
-
                     synchronized (subscribersHandlers.get(reply.getMethod())) {
                         // Make a defensive copy
                         subs = ImmutableList.copyOf(subscribersHandlers.get(reply.getMethod()));
                     }
-
                     for (SubscribeResultHandler handler : subs) {
                         try {
                             log.debug("Running subscriber handler with result: " + reply);
@@ -270,10 +275,9 @@ public class StratumClient extends AbstractExecutionThreadService {
                         }
                     }
                 } else {
-                    log.error("Received call from server, but not could find subscriber",
+                    log.error("Received call from server, but could not find subscriber",
                             new MessageException("Orphaned call", reply.toString()));
                 }
-
             } else {
                 log.error("Unable to handle message",
                         new MessageException("Unhandled message", message.toString()));
