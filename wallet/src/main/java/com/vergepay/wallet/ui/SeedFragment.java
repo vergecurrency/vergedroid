@@ -30,6 +30,7 @@ public class SeedFragment extends Fragment {
     private WelcomeFragment.Listener listener;
     private boolean hasExtraEntropy = false;
     private TextView mnemonicView;
+    private String mnemonicString;
 
     public SeedFragment() {
     }
@@ -50,7 +51,7 @@ public class SeedFragment extends Fragment {
             public void onClick(View v) {
                 log.info("Clicked restore wallet");
                 if (listener != null) {
-                    listener.onSeedCreated(mnemonicView.getText().toString());
+                    listener.onSeedCreated(mnemonicString);
                 }
             }
         });
@@ -100,7 +101,8 @@ public class SeedFragment extends Fragment {
         } else {
             mnemonic = Wallet.generateMnemonicString(Constants.SEED_ENTROPY_DEFAULT);
         }
-        mnemonicView.setText(mnemonic);
+        this.mnemonicString = mnemonic;
+        mnemonicView.setText(Wallet.mnemonicToCountedString(mnemonic));
     }
 
     @Override

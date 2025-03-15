@@ -145,7 +145,7 @@ public class ShowSeedFragment extends Fragment {
         if (seedInfo != null) {
             seedLayout.setVisibility(View.VISIBLE);
             seedEncryptedLayout.setVisibility(View.GONE);
-            seedView.setText(seedInfo.seedString);
+            seedView.setText(Wallet.mnemonicToCountedString(seedInfo.seedString));
             QrUtils.setQr(qrView, getResources(), seedInfo.seedString);
             if (seedInfo.isSeedPasswordProtected) {
                 seedPasswordProtectedView.setVisibility(View.VISIBLE);
