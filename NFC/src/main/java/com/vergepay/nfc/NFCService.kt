@@ -10,7 +10,7 @@ import android.nfc.tech.Ndef
 import android.os.Build
 import android.os.Parcelable
 import android.util.Log
-import com.coinomi.nfc.utils.NfcUtils
+import com.vergepay.nfc.utils.NfcUtils
 import java.util.*
 import kotlin.collections.ArrayList
 

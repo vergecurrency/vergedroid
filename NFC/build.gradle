@@ -4,11 +4,12 @@ plugins {
 }
 
 android {
-    compileSdkVersion rootProject.ext.target_sdk
+    compileSdkVersion 35
+    namespace = "com.vergepay.wallet"
 
     defaultConfig {
-        minSdkVersion rootProject.ext.min_sdk
-        targetSdkVersion rootProject.ext.target_sdk
+        minSdkVersion 31
+        targetSdkVersion 35
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
