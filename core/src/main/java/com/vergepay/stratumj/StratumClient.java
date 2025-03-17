@@ -41,17 +41,16 @@ public class StratumClient extends AbstractExecutionThreadService {
 
     private final AtomicLong idCounter = new AtomicLong();
     private final ServerAddress serverAddress;
+    private Socket socket;
+    @VisibleForTesting DataOutputStream toServer;
+    BufferedReader fromServer;
+	
     final private ExecutorService pool = Executors.newFixedThreadPool(NUM_OF_WORKERS);
     final private ConcurrentHashMap<Long, SettableFuture<ResultMessage>> callers =
             new ConcurrentHashMap<>();
     final private ConcurrentHashMap<String, List<SubscribeResultHandler>> subscribersHandlers =
             new ConcurrentHashMap<>();
     final private BlockingQueue<BaseMessage> queue = new LinkedBlockingDeque<BaseMessage>();
-
-    @VisibleForTesting
-    DataOutputStream toServer;
-    BufferedReader fromServer;
-    private Socket socket;
 
     public StratumClient(ServerAddress address) {
         serverAddress = address;
