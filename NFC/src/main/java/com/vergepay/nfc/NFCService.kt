@@ -26,7 +26,7 @@ class NFCService(private val context: Activity) {
         if (adapter != null && !adapter!!.isEnabled) {
             showEnableDialog()
         } else if (adapter != null && adapter!!.isEnabled) {
-            Log.e("NFCService", "NFC enabled");
+            Log.e("NFCService", "NFC enabled")
             enableNfcForegroundDispatch()
         }
     }
@@ -42,7 +42,7 @@ class NFCService(private val context: Activity) {
     fun readTag(intent: Intent, readCallBackInfo: ((String?) -> Unit)?) {
         val tag = intent.getParcelableExtraCompat<Tag>(NfcAdapter.EXTRA_TAG)
 
-        Log.e("NFCService", "NFC readTag $tag");
+        Log.e("NFCService", "NFC readTag $tag")
         try {
             val ndef = Ndef.get(tag)
             ndef.connect()
@@ -77,7 +77,7 @@ class NFCService(private val context: Activity) {
             }
             val nfcPendingIntent = buildPendingIntent(intent)
             adapter?.enableForegroundDispatch(context, nfcPendingIntent, null, null)
-            Log.e("NFCService", "NFC enableNfcForegroundDispatch ${context.javaClass} $adapter");
+            Log.e("NFCService", "NFC enableNfcForegroundDispatch ${context.javaClass} $adapter")
         } catch (t: Throwable) {
             Log.e("NFCService", "NFC enableNfcForegroundDispatch FAilEd: ", t)
         }
@@ -86,7 +86,7 @@ class NFCService(private val context: Activity) {
     private fun disableNFCForeground() {
         try {
             adapter?.disableForegroundDispatch(context)
-            Log.e("NFCService", "NFC disableNFCForeground $adapter");
+            Log.e("NFCService", "NFC disableNFCForeground $adapter")
         } catch (t: Throwable) {
             Log.e("NFCService", "NFC DISABLING FAilEd: ", t)
         }

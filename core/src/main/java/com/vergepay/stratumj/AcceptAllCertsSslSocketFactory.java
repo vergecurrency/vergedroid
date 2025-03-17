@@ -28,7 +28,7 @@ public class AcceptAllCertsSslSocketFactory extends SSLSocketFactory {
 		try {
 			SSLContext sslcontext = SSLContext.getInstance("TLS");
 			sslcontext.init(null, getTrustManagers(), new java.security.SecureRandom());
-			factory = (SSLSocketFactory) sslcontext.getSocketFactory();
+			factory = sslcontext.getSocketFactory();
 		} catch (Exception ex) {
 			log.error("Failed to create the dummy ssl socket factory.", ex);
 		}

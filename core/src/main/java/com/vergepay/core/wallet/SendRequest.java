@@ -20,6 +20,7 @@ package com.vergepay.core.wallet;
 import com.vergepay.core.coins.CoinType;
 import com.vergepay.core.coins.Value;
 import com.vergepay.core.messages.TxMessage;
+import com.google.common.base.MoreObjects;
 import com.vergepay.core.wallet.families.bitcoin.CoinSelector;
 
 import org.bitcoinj.core.Transaction;
@@ -184,7 +185,7 @@ public class SendRequest<T extends AbstractTransaction> implements Serializable 
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("SendRequest{");
-
+        MoreObjects.ToStringHelper helper = MoreObjects.toStringHelper(this).omitNullValues();
         if (emptyWallet) sb.append("emptyWallet=").append(emptyWallet).append(", ");
         if (changeAddress != null) sb.append("changeAddress=").append(changeAddress).append(", ");
         if (fee != null) sb.append("fee=").append(fee).append(", ");
