@@ -10,6 +10,7 @@ import com.vergepay.stratumj.messages.CallMessage;
 import com.vergepay.stratumj.messages.MessageException;
 import com.vergepay.stratumj.messages.ResultMessage;
 
+import org.conscrypt.Conscrypt;
 import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,18 +66,13 @@ public class StratumClient extends AbstractExecutionThreadService {
     }
 
     protected Socket createSocket() throws IOException {
-        ServerAddress address = serverAddress;
-        log.debug("Opening a socket to " + address.getHost() + ":" + address.getPort() +
-                (address.isUseSSL() ? " with SSL" : ""));
-
-        if (address.isUseSSL()) {
-            SSLSocketFactory factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
-            SSLSocket sslSocket = (SSLSocket) factory.createSocket(address.getHost(), address.getPort());
-            sslSocket.startHandshake();
-            return sslSocket;
-        } else {
-            return new Socket(address.getHost(), address.getPort());
-        }
+        if (!serverAddress.isUseSSL()) {
+        throw new IOException("Insecure connection attempt blocked. SSL/TLS is required.");
+    }
+    SSLSocketFactory factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
+    SSLSocket sslSocket = (SSLSocket) factory.createSocket(serverAddress.getHost(), serverAddress.getPort());
+    sslSocket.startHandshake();
+    return sslSocket;
     }
 
     @Override
