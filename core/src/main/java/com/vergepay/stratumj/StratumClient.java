@@ -10,7 +10,6 @@ import com.vergepay.stratumj.messages.CallMessage;
 import com.vergepay.stratumj.messages.MessageException;
 import com.vergepay.stratumj.messages.ResultMessage;
 
-import org.conscrypt.Conscrypt;
 import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
