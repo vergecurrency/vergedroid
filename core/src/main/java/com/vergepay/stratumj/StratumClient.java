@@ -37,7 +37,7 @@ import javax.net.ssl.SSLSocketFactory;
  */
 public class StratumClient extends AbstractExecutionThreadService {
     private static final Logger log = LoggerFactory.getLogger(StratumClient.class);
-    private final int NUM_OF_WORKERS = 1;
+    private final int NUM_OF_WORKERS = 2;
 
     private final AtomicLong idCounter = new AtomicLong();
     private final ServerAddress serverAddress;
