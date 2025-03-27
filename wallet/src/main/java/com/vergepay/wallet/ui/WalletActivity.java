@@ -414,18 +414,6 @@ final public class WalletActivity extends BaseWalletActivity implements
         builder.setTitle(R.string.wallet_update_title);
         builder.setMessage(R.string.wallet_update_message);
 
-        // Disable market link for now
-//        if (pm.resolveActivity(marketIntent, 0) != null)
-//        {
-//            builder.setPositiveButton("Play Store", new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(final DialogInterface dialog, final int id) {
-//                    startActivity(marketIntent);
-//                    finish();
-//                }
-//            });
-//        }
-
         if (pm.resolveActivity(binaryIntent, 0) != null)
         {
             builder.setPositiveButton(R.string.button_download, new DialogInterface.OnClickListener() {
